@@ -42,25 +42,6 @@
                     });
             }
 
-            render() {
-                return <div>
-                    <div id="create-form">
-                        <input type="text" value={this.state.note} onChange={this.handleChange}/>
-                        <button onClick={this.handleClick}>Создать</button>
-                    </div>
-                    <div>
-                        <button onClick={this.handleRefresh}>Обновить</button>
-                        <ul>
-                            {this.state.notes.map(it => {
-                                return <li key="{it.key}">
-                                    {it.note}
-                                </li>
-                            })}
-                        </ul>
-                    </div>
-                </div>
-            }
-
             handleChange(event) {
                 this.setState(state => ({note: event.target.value}));
             }
@@ -80,11 +61,63 @@
                         console.log(error);
                     });
             }
+
+            render() {
+                return <div className="flynote">
+                    <button className="notes-refresh" onClick={this.handleRefresh}>Обновить</button>
+                    <h1>
+                        FLYNOTE
+                    </h1>
+                    <div className="note-form">
+                        <input
+                            className="note-form--note"
+                            type="text"
+                            value={this.state.note}
+                            onChange={this.handleChange}
+                            placeholder="Заметка"
+                        />
+                        <button className="note-form--create" onClick={this.handleClick}>Создать</button>
+                    </div>
+                    <ul className="notes">
+                        {this.state.notes.map(it => {
+                            return <li key="{it.key}">
+                                {it.note}
+                            </li>
+                        })}
+                    </ul>
+                </div>
+            }
         }
 
         const domContainer = document.querySelector('#app');
         ReactDOM.render(React.createElement(IndexApp), domContainer);
     </script>
+    <style>
+        .flynote {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            width: 520px;
+        }
+
+        .notes-refresh {
+            float: right;
+            margin-top: 10px;
+        }
+
+        .note-form {
+            text-align: justify;
+        }
+
+        .note-form--note {
+            width: 80%;
+        }
+
+        .note-form--create {
+            float: right;
+        }
+    </style>
 </head>
 <body>
 <div id="app"></div>
