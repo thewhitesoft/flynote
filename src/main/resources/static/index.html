@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Flynote</title>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js" crossorigin></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script type="text/babel">
+        class IndexApp extends React.Component {
+            constructor(props) {
+                super(props);
+
+                this.state = {
+                    note: "",
+                    notes: []
+                }
+
+                this.handleChange = this.handleChange.bind(this);
+                this.handleClick = this.handleClick.bind(this);
+                this.handleRefresh = this.handleRefresh.bind(this);
+            }
+
+            componentDidMount() {
+                this.loadNotes();
+            }
+
+            loadNotes() {
+                axios.get("http://localhost:8080/note/list")
+                    .then((response) => {
+                        this.setState(state => ({
+                            notes: response.data
+                        }))
+                    })
+                    .catch((error) => {
+                        // handle error
+                        console.log(error);
+                    });
+            }
+
+            render() {
+                return <div>
+                    <div id="create-form">
+                        <input type="text" value={this.state.note} onChange={this.handleChange}/>
+                        <button onClick={this.handleClick}>Создать</button>
+                    </div>
+                    <div>
+                        <button onClick={this.handleRefresh}>Обновить</button>
+                        <ul>
+                            {this.state.notes.map(it => {
+                                return <li key="{it.key}">
+                                    {it.note}
+                                </li>
+                            })}
+                        </ul>
+                    </div>
+                </div>
+            }
+
+            handleChange(event) {
+                this.setState(state => ({note: event.target.value}));
+            }
+
+            handleRefresh(event) {
+                this.loadNotes();
+            }
+
+            handleClick(event) {
+                axios.post('http://localhost:8080/note/create', {
+                    "note": this.state.note
+                })
+                    .then((response) => {
+                        this.loadNotes()
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            }
+        }
+
+        const domContainer = document.querySelector('#app');
+        ReactDOM.render(React.createElement(IndexApp), domContainer);
+    </script>
+</head>
+<body>
+<div id="app"></div>
+</body>
+</html>
