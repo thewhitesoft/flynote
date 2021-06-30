@@ -1,0 +1,14 @@
+{
+  "user_agent_whitelist": [
+    {
+      "id": 1,
+      "value": "Student"
+    }
+  ],
+  "note": [
+    {
+      "id": "regex:.+",
+      "note": "test note"
+    }
+  ]
+}

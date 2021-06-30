@@ -1,0 +1,8 @@
+{
+  "user_agent_whitelist": [
+    {
+      "id": 1,
+      "value": "Student"
+    }
+  ]
+}

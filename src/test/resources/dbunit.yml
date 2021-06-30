@@ -1,0 +1,6 @@
+cacheConnection: true
+cacheTableNames: true
+leakHunter: false
+mergeDataSets: false
+mergingStrategy: METHOD
+caseInsensitiveStrategy: LOWERCASE
